@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        /* Estilos básicos */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 50px;
+            background-color: #f0f0f0;
+        }
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px auto;
+            width: 300px;
+            background-color: #fff;
+        }
+        button {
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card" id="flashcard">
+    <h2 id="anverso"></h2>
+    <button onclick="mostrarRespuesta()">Mostrar Respuesta</button>
+    <div id="respuesta"></div>
+    <div id="ejemplo"></div>
+    <button onclick="markEasy()">Fácil</button>
+    <button onclick="markDifficult()">Difícil</button>
+</div>
+
+<script>
+    const flashcards =  [
+{
+  "anverso": "≠",
+
+  "reverso": {
+
+    "respuesta": "distinto",
+
+    "ejemplo": "3 ≠ 4, ya que 3 es distinto de 4."
+
+  }
+
+},
+
+{
+
+  "anverso": "<",
+
+  "reverso": {
+
+    "respuesta": "menor",
+
+    "ejemplo": "5 < 10, ya que 5 es menor que 10."
+
+  }
+
+},
+
+{
+
+  "anverso": ">",
+
+  "reverso": {
+
+    "respuesta": "mayor",
+
+    "ejemplo": "7 > 3, ya que 7 es mayor que 3."
+
+  }
+
+},
+
+{
+
+  "anverso": "≤",
+
+  "reverso": {
+
+    "respuesta": "menor o igual",
+
+    "ejemplo": "5 ≤ 5, ya que 5 es menor o igual a 5."
+
+  }
+
+},
+
+{
+
+  "anverso": "≥",
+
+  "reverso": {
+
+    "respuesta": "mayor o igual",
+
+    "ejemplo": "6 ≥ 4, ya que 6 es mayor o igual que 4."
+
+  }
+
+},
+
+{
+
+  "anverso": "/",
+
+  "reverso": {
+
+    "respuesta": "tal que",
+
+    "ejemplo": "{ x ∈ R / x > 0 } significa el conjunto de los números reales tal que x es mayor que 0."
+
+  }
+
+},
+
+{
+
+  "anverso": "∈",
+
+  "reverso": {
+
+    "respuesta": "pertenece",
+
+    "ejemplo": "2 ∈ {1, 2, 3}, ya que 2 pertenece al conjunto."
+
+  }
+
+},
+
+{
+
+  "anverso": "∉",
+
+  "reverso": {
+
+    "respuesta": "no pertenece",
+
+    "ejemplo": "4 ∉ {1, 2, 3}, ya que 4 no pertenece al conjunto."
+
+  }
+
+},
+
+{
+
+  "anverso": "⊂",
+
+  "reverso": {
+
+    "respuesta": "subconjunto, contenido o incluido",
+
+    "ejemplo": "{1, 2} ⊂ {1, 2, 3}, ya que {1, 2} es un subconjunto de {1, 2, 3}."
+
+  }
+
+},
+
+{
+
+  "anverso": "⊃",
+
+  "reverso": {
+
+    "respuesta": "contiene o incluye",
+
+    "ejemplo": "{1, 2, 3} ⊃ {1, 2}, ya que {1, 2, 3} contiene a {1, 2}."
+
+  }
+
+},
+
+{
+
+  "anverso": "⊄",
+
+  "reverso": {
+
+    "respuesta": "no subconjunto, no contenido o no incluido",
+
+    "ejemplo": "{1, 2} ⊄ {2, 3}, ya que {1, 2} no es un subconjunto de {2, 3}."
+
+  }
+
+},
+
+{
+
+  "anverso": "⊅",
+
+  "reverso": {
+
+    "respuesta": "no contiene o no incluye",
+
+    "ejemplo": "{1, 2} ⊅ {1, 2, 3}, ya que {1, 2} no contiene a {1, 2, 3}."
+
+  }
+
+},
+
+{
+
+  "anverso": "∧",
+
+  "reverso": {
+
+    "respuesta": "y",
+
+    "ejemplo": "p ∧ q, significa que p y q son verdaderos."
+
+  }
+
+},
+
+{
+
+  "anverso": "∨",
+
+  "reverso": {
+
+    "respuesta": "o",
+
+    "ejemplo": "p ∨ q, significa que p o q son verdaderos."
+
+  }
+
+},
+
+{
+
+  "anverso": "∅",
+
+  "reverso": {
+
+    "respuesta": "conjunto vacío",
+
+    "ejemplo": "El conjunto ∅ no contiene ningún elemento."
+
+  }
+
+},
+
+{
+
+  "anverso": "∪",
+
+  "reverso": {
+
+    "respuesta": "unión",
+
+    "ejemplo": "{1, 2} ∪ {2, 3} = {1, 2, 3}, que representa la unión de ambos conjuntos."
+
+  }
+
+},
+
+{
+
+  "anverso": "∩",
+
+  "reverso": {
+
+    "respuesta": "intersección",
+
+    "ejemplo": "{1, 2} ∩ {2, 3} = {2}, que representa la intersección de ambos conjuntos."
+
+  }
+
+},
+
+{
+
+  "anverso": "∞",
+
+  "reverso": {
+
+    "respuesta": "infinito",
+
+    "ejemplo": "El número de puntos en una línea recta es infinito."
+
+  }
+
+},
+
+{
+
+  "anverso": "∀",
+
+  "reverso": {
+
+    "respuesta": "para todo",
+
+    "ejemplo": "∀x (x + 1 > x), es cierto para todo x en los números reales."
+
+  }
+
+},
+
+{
+
+  "anverso": "∃",
+
+  "reverso": {
+
+    "respuesta": "existe",
+
+    "ejemplo": "∃x (x^2 = 4), existe un número x tal que x al cuadrado es igual a 4."
+
+  }
+
+},
+
+{
+
+  "anverso": "∄",
+
+  "reverso": {
+
+    "respuesta": "no existe",
+
+    "ejemplo": "∄x (x^2 = -1), no existe un número real x tal que x al cuadrado sea igual a -1."
+
+  }
+
+},
+
+{
+
+  "anverso": "⇒",
+
+  "reverso": {
+
+    "respuesta": "implica o entonces",
+
+    "ejemplo": "p ⇒ q, si p es verdadero, entonces q es verdadero."
+
+  }
+
+},
+
+{
+
+  "anverso": "⇔",
+
+  "reverso": {
+
+    "respuesta": "si y sólo si",
+
+    "ejemplo": "p ⇔ q, p es verdadero si y sólo si q es verdadero."
+
+  }
+
+},
+
+{
+
+  "anverso": "∥",
+
+  "reverso": {
+
+    "respuesta": "paralelos",
+
+    "ejemplo": "Las rectas l y m son paralelas si no se intersecan."
+
+  }
+
+},
+
+{
+
+  "anverso": "∦",
+
+  "reverso": {
+
+    "respuesta": "no paralelos",
+
+    "ejemplo": "Las rectas l y m son no paralelas si se intersecan."
+
+  }
+
+},
+
+{
+
+  "anverso": "⊥",
+
+  "reverso": {
+
+    "respuesta": "perpendicular",
+
+    "ejemplo": "Las rectas l y m son perpendiculares si forman un ángulo de 90°."
+
+  }
+
+},
+
+{
+
+  "anverso": "⊥̸",
+
+  "reverso": {
+
+    "respuesta": "no perpendicular",
+
+    "ejemplo": "Las rectas l y m no son perpendiculares si no forman un ángulo de 90°."
+
+  }
+
+},
+
+{
+
+  "anverso": "∴",
+
+  "reverso": {
+
+    "respuesta": "por lo tanto",
+
+    "ejemplo": "A es verdadero, B es verdadero, ∴ A implica B."
+
+  }
+
+}
+
+];
+
+    let currentFlashcardIndex = 0;
+    let startTime = 0;
+
+    // Cargar la primera tarjeta al cargar la página
+    window.onload = function() {
+        mostrarFlashcard(currentFlashcardIndex);
+        iniciarTiempo();
+    };
+
+    // Mostrar la flashcard
+    function mostrarFlashcard(index) {
+        document.getElementById("anverso").innerText = flashcards[index].anverso;
+        document.getElementById("respuesta").innerText = '';
+        document.getElementById("ejemplo").innerText = '';
+        iniciarTiempo(); // Iniciar tiempo al mostrar una nueva tarjeta
+    }
+
+    // Mostrar la respuesta y el ejemplo
+    function mostrarRespuesta() {
+        let flashcard = flashcards[currentFlashcardIndex];
+        document.getElementById("respuesta").innerText = "Respuesta: " + flashcard.reverso.respuesta;
+        document.getElementById("ejemplo").innerText = "Ejemplo: " + flashcard.reverso.ejemplo;
+        detenerTiempo();
+    }
+
+    // Siguiente flashcard
+    function siguienteFlashcard() {
+        currentFlashcardIndex = (currentFlashcardIndex + 1) % flashcards.length;
+        mostrarFlashcard(currentFlashcardIndex);
+    }
+    // Iniciar tiempo
+    function iniciarTiempo() {
+        startTime = new Date().getTime();
+    }
+    // Detener tiempo
+    function detenerTiempo() {
+        let endTime = new Date().getTime();
+        let timeTaken = (endTime - startTime) / 1000; // Tiempo en segundos
+        clasificarFlashcard(timeTaken);
+    }
+    // Clasificar flashcard según el tiempo de respuesta
+    function clasificarFlashcard(timeTaken) {
+        let classification = '';
+        if (timeTaken <= 60) {
+            classification = "Respondido en menos de 1 minuto, repasar en 15 días.";
+        } else if (timeTaken <= 120) {
+            classification = "Respondido en menos de 2 minutos, repasar en 3 días.";
+        } else if (timeTaken <= 240) {
+            classification = "Respondido en menos de 4 minutos, repasar mañana.";
+        } else {
+            classification = "Tiempo excesivo, revisar pronto.";
+        }
+        console.log(`Tiempo tomado: ${timeTaken} segundos. Clasificación: ${classification}`);
+    }
+    // Marcar tarjeta como fácil
+    function markEasy() {
+        sendFeedback('easy');
+        siguienteFlashcard(); // Pasar a la siguiente tarjeta
+        Swal.fire({ title: "Genial!", text: "Repetir en 3 días", showConfirmButton: false, timer: 1500, icon: "success" });
+    }
+    // Marcar tarjeta como difícil
+    function markDifficult() {
+        sendFeedback('difficult');
+        siguienteFlashcard(); // Pasar a la siguiente tarjeta
+        Swal.fire({ icon: "error", title: "Añadido al mazo 2.", text: "Repetir en 1 día!", timer: 1500, showConfirmButton: false });
+    }
+    function sendFeedback(feedback) {
+        const card = flashcards[currentFlashcardIndex];
+        const data = {
+            anverso: card.anverso,
+            reverso: card.reverso.respuesta,
+            feedback: feedback
+        };
+
+        fetch('feedback.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+                //let caracterNoIgual = "\u2260";
+                //console.log(caracterNoIgual); // Imprimirá ≠ en la consola
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch((error) => console.log('Error:', error));
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+[
+    {
+        "anverso": "\u2260",
+        "reverso": "distinto",
+        "feedback": "easy",
+        "timestamp": "2024-09-29 02:13:14"
+    },
+    {
+        "anverso": "\u2260",
+        "reverso": "distinto",
+        "feedback": "easy",
+        "timestamp": "2024-09-29 02:21:36"
+    },
+    {
+        "anverso": "<",
+        "reverso": "menor",
+        "feedback": "difficult",
+        "timestamp": "2024-09-29 02:21:38"
+    },
+    {
+        "anverso": "\u2260",
+        "reverso": "distinto",
+        "feedback": "easy",
+        "timestamp": "2024-09-29 02:25:22"
+    },
+    {
+        "anverso": "<",
+        "reverso": "menor",
+        "feedback": "difficult",
+        "timestamp": "2024-09-29 02:25:28"
+    },
+    {
+        "anverso": ">",
+        "reverso": "mayor",
+        "feedback": "easy",
+        "timestamp": "2024-09-29 02:25:32"
+    },
+    {
+        "anverso": "\u2260",
+        "reverso": "distinto",
+        "feedback": "easy",
+        "timestamp": "2024-09-29 02:30:21"
+    },
+    {
+        "anverso": "<",
+        "reverso": "menor",
+        "feedback": "easy",
+        "timestamp": "2024-09-29 02:30:31"
+    },
+    {
+        "anverso": ">",
+        "reverso": "mayor",
+        "feedback": "easy",
+        "timestamp": "2024-09-29 02:30:44"
+    }
+]
